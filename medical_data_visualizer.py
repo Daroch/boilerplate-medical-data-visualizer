@@ -25,12 +25,12 @@ def draw_cat_plot():
 
 
     # Draw the catplot with 'sns.catplot()'
-    g = sns.catplot(x="variable",hue="value",
+    grid = sns.catplot(x="variable",hue="value",
                 kind="count", legend=True,col="cardio",
                 data=df_long)
+    grid.set(xlabel="variable", ylabel="total",title="")
     # Get the figure for the output
-    fig =plt.figure(figsize=(20,5))
-    g.set_axis_labels("", "total")
+    fig=grid.figure
     # Do not modify the next two lines
     fig.savefig('catplot.png')
     return fig
@@ -57,20 +57,20 @@ def draw_heat_map():
     df_clean = df_clean.drop("bmi", axis=1)
 
     # Calculate the correlation matrix
-    #corr = None
+    corr = df_clean.corr()
 
     # Generate a mask for the upper triangle
-    mask = np.triu(np.ones_like(df_clean.corr()))
+    mask = np.triu(np.ones_like(corr))
 
 
 
 
     # Set up the matplotlib figure
-    fig = plt.figure(figsize=(20,5))
+    fig = plt.figure(figsize=(15,15))
     
     # Draw the heatmap with 'sns.heatmap()'
-    sns.heatmap(df_clean.corr(), annot=True, mask=mask, fmt=".1f", cmap="rocket")
-    sns.set(font_scale=.5)
+    sns.heatmap(df_clean.corr(), annot=True, mask=mask, fmt=".2f")
+    sns.set(font_scale=.8)
 
 
     # Do not modify the next two lines
